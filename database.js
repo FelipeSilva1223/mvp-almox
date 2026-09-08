@@ -3,26 +3,12 @@ const { loadEnvFile } = require('node:process');
 
 loadEnvFile();
 
-async function conectar() {
-    const conn = await mysql2.createConnection({
+const connection = mysql2.createPool({
     host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     user: process.env.DB_USER,
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD
-    });
+});
 
-    try {
-        const [result, fields] = await conn.query(
-            'SELECT * FROM almoxarifado'
-        );
-
-        console.log(result);
-        console.log(fields);
-    } catch (err) {
-        console.log(err);
-    }
-
-    await conn.end();
-};
-
-conectar();
+module.exports = connection;
