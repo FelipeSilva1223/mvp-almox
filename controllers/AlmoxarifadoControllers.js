@@ -1,7 +1,9 @@
 const {
     create,
     findAll,
-    findById} = require('../repositories/AlmoxarifadoRepository')
+    findById,
+    update,
+    deleteAlmox} = require('../repositories/AlmoxarifadoRepository')
 
 async function createAlmoxarifado(req, res) {
     try {
@@ -39,15 +41,16 @@ async function getAll(req, res) {
 async function getById(req, res) {
     const id = req.params.id;
     try {
-        const reponse = await findById(id);
+        const response = await findById(id);
 
-        if(reponse.length > 0) {
-            return res.status(200).json(reponse);
-        } else {
+        if(!response) {
             return res.status(404).json({
                 message: 'Unidade não encontrada.'
             });
         };
+
+        return res.status(200).json(response);
+        
     } catch (err) {
         console.log(err);
         return res.status(500).json({
@@ -56,7 +59,55 @@ async function getById(req, res) {
     };
 };
 
+async function updateNome(req, res) {
+    const id = req.params.id;
+    const nome = req.body.nome;
+    try {
+        const response = await update(id, nome);
+
+        if (response.affectedRows === 0) {
+            return res.status(404).json({
+                message: 'Unidade não encontrada.'
+            });
+        };
+
+        return res.status(200).json({
+            message: 'Nome atualizado.'
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            message: 'Erro interno'
+        });
+    };
+};
+
+async function deleteAlmoxarifado(req, res) {
+    const id = req.params.id;
+    try {
+        const response = await deleteAlmox(id);
+
+        if (response.affectedRows === 0) {
+            return res.status(404).json({
+                message: 'Unidade não encontrada.'
+            });
+        };
+
+        return res.status(200).json({
+            message: 'Unidade excluída.'
+        });
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            message: 'Erro interno'
+        });
+    };
+};
+
 module.exports = {
     createAlmoxarifado,
     getAll,
-    getById};
+    getById,
+    updateNome,
+    deleteAlmoxarifado};

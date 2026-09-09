@@ -3,7 +3,8 @@ const connection = require('../database');
 async function create(nome) {
     try {
         const sql = `
-        INSERT INTO almoxarifado (nome) VALUES (?);`
+        INSERT INTO almoxarifado (nome) VALUES (?);
+        `;
 
         const [result] = await connection.query(sql, [nome])
 
@@ -17,14 +18,12 @@ async function create(nome) {
 async function findAll() {
     try {
         const sql = `
-        SELECT
-            almoxarifado.id,
-            almoxarifado.nome
-        FROM almoxarifado;`;
+        SELECT id, nome
+        FROM almoxarifado;
+        `;
 
         const [result] = await connection.query(sql);
 
-        console.log(result);
         return result;
 
     } catch (err) {
@@ -36,15 +35,49 @@ async function findAll() {
 async function findById(id) {
     try {
         const sql = `
-        SELECT
-            almoxarifado.id,
-            almoxarifado.nome
+        SELECT id, nome
         FROM almoxarifado
-        WHERE almoxarifado.id = ?`
+        WHERE almoxarifado.id = ?
+        `;
 
         const [result] = await connection.query(sql, [id])
 
+        return result[0] ?? null;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    };
+};
+
+async function update(id, nome) {
+    try {
+        const sql = `
+        UPDATE almoxarifado
+        SET nome = ?
+        WHERE id = ?;
+        `;
+
+        const [result] = await connection.query(sql, [nome, id]);
+
         return result;
+
+    } catch (err) {
+        console.log(err);
+        throw err;
+    };
+};
+
+async function deleteAlmox(id) {
+    try {
+        const sql = `
+        DELETE FROM almoxarifado
+        WHERE id = ?;
+        `;
+    
+        const [result] = await connection.query(sql, [id]);
+
+        return result;
+
     } catch (err) {
         console.log(err);
         throw err;
@@ -54,4 +87,6 @@ async function findById(id) {
 module.exports = {
     findAll,
     findById,
-    create};
+    create,
+    update,
+    deleteAlmox};
