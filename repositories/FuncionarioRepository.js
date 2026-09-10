@@ -1,14 +1,15 @@
 const connection = require('../database');
 
-async function create(nome) {
+async function create(nome, matricula) {
     try {
         const sql = `
-        INSERT INTO almoxarifados (nome) VALUES (?);
+        INSERT INTO funcionarios (nome, matricula) VALUES (?, ?);
         `;
 
-        const [result] = await connection.query(sql, [nome])
+        const [result] = await connection.query(sql, [nome, matricula]);
 
         return result;
+
     } catch (err) {
         console.log(err);
         throw err;
@@ -18,14 +19,12 @@ async function create(nome) {
 async function findAll() {
     try {
         const sql = `
-        SELECT id, nome
-        FROM almoxarifados;
-        `;
+        SELECT id, nome, matricula
+        FROM funcionarios;`;
 
         const [result] = await connection.query(sql);
 
         return result;
-
     } catch (err) {
         console.log(err);
         throw err;
@@ -35,12 +34,11 @@ async function findAll() {
 async function findById(id) {
     try {
         const sql = `
-        SELECT id, nome
-        FROM almoxarifados
-        WHERE almoxarifados.id = ?
-        `;
+        SELECT id, nome, matricula
+        FROM funcionarios
+        WHERE id = ?;`;
 
-        const [result] = await connection.query(sql, [id])
+        const [result] = await connection.query(sql, [id]);
 
         return result[0] ?? null;
     } catch (err) {
@@ -52,10 +50,9 @@ async function findById(id) {
 async function update(id, nome) {
     try {
         const sql = `
-        UPDATE almoxarifados
+        UPDATE funcionarios
         SET nome = ?
-        WHERE id = ?;
-        `;
+        WHERE id = ?;`;
 
         const [result] = await connection.query(sql, [nome, id]);
 
@@ -67,13 +64,12 @@ async function update(id, nome) {
     };
 };
 
-async function deleteAlmox(id) {
+async function deleteFunc(id) {
     try {
         const sql = `
-        DELETE FROM almoxarifados
-        WHERE id = ?;
-        `;
-    
+        DELETE FROM funcionarios
+        WHERE id = ?;`;
+
         const [result] = await connection.query(sql, [id]);
 
         return result;
@@ -85,8 +81,9 @@ async function deleteAlmox(id) {
 };
 
 module.exports = {
+    create,
     findAll,
     findById,
-    create,
     update,
-    deleteAlmox};
+    deleteFunc
+};

@@ -1,13 +1,11 @@
 const connection = require('../database');
 
-async function create(nome) {
+async function create(nome, valor, quantidade) {
     try {
         const sql = `
-        INSERT INTO almoxarifados (nome) VALUES (?);
-        `;
-
-        const [result] = await connection.query(sql, [nome])
-
+        INSERT INTO epis (nome, valor, quantidade)
+        VALUES (?, ?, ?);`;
+        const [result] = await connection.query(sql, [nome, valor, quantidade]);
         return result;
     } catch (err) {
         console.log(err);
@@ -18,14 +16,10 @@ async function create(nome) {
 async function findAll() {
     try {
         const sql = `
-        SELECT id, nome
-        FROM almoxarifados;
-        `;
-
+        SELECT id, nome, valor, quantidade
+        FROM epis;`;
         const [result] = await connection.query(sql);
-
         return result;
-
     } catch (err) {
         console.log(err);
         throw err;
@@ -35,13 +29,10 @@ async function findAll() {
 async function findById(id) {
     try {
         const sql = `
-        SELECT id, nome
-        FROM almoxarifados
-        WHERE almoxarifados.id = ?
-        `;
-
-        const [result] = await connection.query(sql, [id])
-
+        SELECT id, nome, valor, quantidade
+        FROM epis
+        WHERE id = ?;`;
+        const [result] = await connection.query(sql, [id]);
         return result[0] ?? null;
     } catch (err) {
         console.log(err);
@@ -52,41 +43,28 @@ async function findById(id) {
 async function update(id, nome) {
     try {
         const sql = `
-        UPDATE almoxarifados
+        UPDATE epis
         SET nome = ?
-        WHERE id = ?;
-        `;
-
+        WHERE id = ?;`;
         const [result] = await connection.query(sql, [nome, id]);
-
         return result;
-
     } catch (err) {
         console.log(err);
         throw err;
     };
 };
 
-async function deleteAlmox(id) {
+async function deleteEpi(id) {
     try {
         const sql = `
-        DELETE FROM almoxarifados
-        WHERE id = ?;
-        `;
-    
+        DELETE FROM epis
+        WHERE id = ?;`;
         const [result] = await connection.query(sql, [id]);
-
         return result;
-
     } catch (err) {
         console.log(err);
         throw err;
     };
 };
 
-module.exports = {
-    findAll,
-    findById,
-    create,
-    update,
-    deleteAlmox};
+module.exports = { create, findAll, findById, update, deleteEpi };

@@ -3,56 +3,58 @@ const {
     findAll,
     findById,
     update,
-    deleteAlmox} = require('../repositories/AlmoxarifadoRepository')
+    deleteFunc
+} = require('../repositories/FuncionarioRepository');
 
-async function createAlmoxarifado(req, res) {
+async function createFuncionario(req, res) {
     try {
         const nome = req.body.nome;
-        const response = await create(nome);
+        const matricula = req.body.matricula;
+        const response = await create(nome, matricula);
 
         return res.status(201).json(response);
 
     } catch (err) {
-        console.log(err)
+        console.log(err);
         return res.status(500).json({
-            message: 'Erro interno'
+            message: 'Erro interno.'
         });
     };
 };
-    
+
 async function getAll(req, res) {
     try {
         const response = await findAll();
 
-        if(response.length > 0) {
+        if (response.length > 0) {
             return res.status(200).json(response);
-        } else { 
+        } else {
             return res.status(404).json({
-                message: 'Nenhum almoxarifado cadastrado.'
+                message: 'Nenhum funcionário cadastrado.'
             });
         };
 
     } catch (err) {
         console.log(err);
         return res.status(500).json({
-            message: 'Erro interno'
+            message: 'Erro interno.'
         });
     };
 };
 
 async function getById(req, res) {
-    const id = req.params.id;
     try {
+        const id = req.params.id;
         const response = await findById(id);
 
-        if(!response) {
+        if (!response) {
             return res.status(404).json({
-                message: 'Unidade não encontrada.'
+                message: 'Funcionário não encontrado.'
             });
         };
 
         return res.status(200).json(response);
-        
+
     } catch (err) {
         console.log(err);
         return res.status(500).json({
@@ -62,14 +64,14 @@ async function getById(req, res) {
 };
 
 async function updateNome(req, res) {
-    const id = req.params.id;
-    const nome = req.body.nome;
     try {
+        const id = req.params.id;
+        const nome = req.body.nome;
         const response = await update(id, nome);
 
         if (response.affectedRows === 0) {
             return res.status(404).json({
-                message: 'Unidade não encontrada.'
+                message: 'Funcionário não encontrado.'
             });
         };
 
@@ -80,37 +82,38 @@ async function updateNome(req, res) {
     } catch (err) {
         console.log(err);
         return res.status(500).json({
-            message: 'Erro interno'
+            message: 'Erro interno.'
         });
     };
 };
 
-async function deleteAlmoxarifado(req, res) {
-    const id = req.params.id;
+async function deleteFuncionario(req, res) {
     try {
-        const response = await deleteAlmox(id);
+        const id = req.params.id;
+        const response = await deleteFunc(id);
 
         if (response.affectedRows === 0) {
             return res.status(404).json({
-                message: 'Unidade não encontrada.'
+                message: 'Funcionário não encontrado.'
             });
         };
 
         return res.status(200).json({
-            message: 'Unidade excluída.'
+            message: 'Funcionário apagado.'
         });
 
     } catch (err) {
         console.log(err);
         return res.status(500).json({
-            message: 'Erro interno'
+            message: 'Erro interno.'
         });
     };
 };
 
 module.exports = {
-    createAlmoxarifado,
+    createFuncionario,
     getAll,
     getById,
     updateNome,
-    deleteAlmoxarifado};
+    deleteFuncionario
+};
