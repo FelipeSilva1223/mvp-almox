@@ -2,14 +2,29 @@ const {
     create,
     findAll,
     findById,
+    findByName,
     update,
     deleteAlmox} = require('../repositories/AlmoxarifadoRepository')
 
 async function createAlmoxarifado(req, res) {
     try {
-        const nome = req.body.nome;
-        const response = await create(nome);
+        const nome = req.body.nome?.trim();
 
+        if (!nome) {
+            return res.status(400).json({
+                message: 'É necessário um nome'
+            });
+        };
+
+        const almoxarifado = await findByName(nome);
+
+        if(almoxarifado) {
+            return res.status(409).json({
+                message: `Almoxarifado ${nome} já existe`
+            })
+        };
+
+        const response = await create(nome);
         return res.status(201).json(response);
 
     } catch (err) {

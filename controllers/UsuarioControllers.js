@@ -9,8 +9,7 @@ const {
 async function createUsuario(req, res) {
     try {
         const nome = req.body.nome;
-        const matricula = req.body.matricula;
-        const response = await create(nome, matricula);
+        const response = await create(nome);
 
         return res.status(201).json(response);
 

@@ -1,12 +1,12 @@
 const connection = require('../database');
 
-async function create(nome, matricula) {
+async function create(nome) {
     try {
         const sql = `
-        INSERT INTO usuarios (nome, matricula) VALUES (?, ?);
+        INSERT INTO usuarios (nome) VALUES (?);
         `;
 
-        const [result] = await connection.query(sql, [nome, matricula]);
+        const [result] = await connection.query(sql, [nome]);
 
         return result;
 
@@ -19,7 +19,7 @@ async function create(nome, matricula) {
 async function findAll() {
     try {
         const sql = `
-        SELECT id, nome, matricula
+        SELECT id, nome
         FROM usuarios;`;
 
         const [result] = await connection.query(sql);
@@ -34,7 +34,7 @@ async function findAll() {
 async function findById(id) {
     try {
         const sql = `
-        SELECT id, nome, matricula
+        SELECT id, nome
         FROM usuarios
         WHERE id = ?;`;
 

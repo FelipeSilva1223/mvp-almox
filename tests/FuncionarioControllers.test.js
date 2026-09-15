@@ -30,6 +30,7 @@ beforeEach(() => {
         create: mock.fn(),
         findAll: mock.fn(),
         findById: mock.fn(),
+        findByMatricula: mock.fn(async () => null),
         update: mock.fn(),
         deleteFunc: mock.fn()
     };
@@ -61,6 +62,17 @@ describe('FuncionarioControllers', () => {
         assert.deepEqual(repository.create.mock.calls[0].arguments, ['Ana', 'MAT-001']);
         assert.equal(res.statusCode, 201);
         assert.deepEqual(res.body, result);
+    });
+
+    test('createFuncionario responds with 400 when matricula already exists', async () => {
+        repository.findByMatricula.mock.mockImplementation(async () => ({ id: 1, matricula: 'MAT-001' }));
+        const res = responseMock();
+
+        await controller.createFuncionario({ body: { nome: 'Ana', matricula: 'MAT-001' } }, res);
+
+        assert.equal(res.statusCode, 400);
+        assert.deepEqual(res.body, { message: 'Matrícula já cadastrada.' });
+        assert.equal(repository.create.mock.callCount(), 0);
     });
 
     test('getAll responds with 200 and all funcionarios', async () => {

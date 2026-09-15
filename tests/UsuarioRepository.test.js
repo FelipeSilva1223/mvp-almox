@@ -37,26 +37,26 @@ describe('UsuarioRepository', () => {
         const result = { insertId: 1, affectedRows: 1 };
         connection.query.mock.mockImplementation(async () => [result]);
 
-        assert.equal(await repository.create('Ana', 'MAT-001'), result);
+        assert.equal(await repository.create('Ana'), result);
 
         const [sql, values] = connection.query.mock.calls[0].arguments;
-        assert.match(normalizeSql(sql), /INSERT INTO usuarios \(nome, matricula\) VALUES \(\?, \?\)/);
-        assert.deepEqual(values, ['Ana', 'MAT-001']);
+        assert.match(normalizeSql(sql), /INSERT INTO usuarios \(nome\) VALUES \(\?\)/);
+        assert.deepEqual(values, ['Ana']);
     });
 
     test('findAll returns all users', async () => {
-        const rows = [{ id: 1, nome: 'Ana', matricula: 'MAT-001' }];
+        const rows = [{ id: 1, nome: 'Ana' }];
         connection.query.mock.mockImplementation(async () => [rows]);
 
         assert.equal(await repository.findAll(), rows);
         assert.match(
             normalizeSql(connection.query.mock.calls[0].arguments[0]),
-            /SELECT id, nome, matricula FROM usuarios/
+            /SELECT id, nome FROM usuarios/
         );
     });
 
     test('findById returns the matching user', async () => {
-        const user = { id: 7, nome: 'Ana', matricula: 'MAT-001' };
+        const user = { id: 7, nome: 'Ana' };
         connection.query.mock.mockImplementation(async () => [[user]]);
 
         assert.equal(await repository.findById('7'), user);
@@ -102,7 +102,7 @@ describe('UsuarioRepository', () => {
             });
 
             const argumentsByMethod = {
-                create: ['Ana', 'MAT-001'],
+                create: ['Ana'],
                 findAll: [],
                 findById: ['7'],
                 update: ['7', 'Novo nome'],

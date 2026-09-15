@@ -1,6 +1,7 @@
 const { loadEnvFile } = require('node:process');
 loadEnvFile();
 const express = require('express');
+const path = require('node:path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -12,6 +13,7 @@ const bemConsumoRouters = require('./routers/BemConsumoRouters');
 const epiRouters = require('./routers/EpiRouters');
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/almoxarifados', almoxarifadoRouters);
 app.use('/usuarios', usuarioRouters);

@@ -47,6 +47,22 @@ async function findById(id) {
     };
 };
 
+async function findByMatricula(matricula) {
+    try {
+        const sql = `
+        SELECT id, nome, matricula
+        FROM funcionarios
+        WHERE id = ?;`;
+
+        const [result] = await connection.query(sql, [matricula]);
+
+        return result[0] ?? null;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    };
+};
+
 async function update(id, nome) {
     try {
         const sql = `
@@ -84,6 +100,7 @@ module.exports = {
     create,
     findAll,
     findById,
+    findByMatricula,    
     update,
     deleteFunc
 };

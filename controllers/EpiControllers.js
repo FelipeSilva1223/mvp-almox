@@ -8,9 +8,13 @@ const {
 
 async function createEpi(req, res) {
     try {
-        const nome = req.body.nome;
-        const valor = req.body.valor;
-        const quantidade = req.body.quantidade;
+        const {nome, valor, quantidade} = req.body;
+
+        if (valor < 0 || quantidade < 0) {
+            return res.status(400).json({
+                message: 'Valor e quantidade não podem ser negativos.'
+            })
+        }
         const response = await create(nome, valor, quantidade);
         return res.status(201).json(response);
     } catch (err) {

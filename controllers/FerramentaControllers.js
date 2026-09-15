@@ -8,10 +8,14 @@ const {
 
 async function createFerramenta(req, res) {
     try {
-        const nome = req.body.nome;
-        const tag = req.body.tag;
-        const status = req.body.status;
-        const valor = req.body.valor;
+        const {nome, tag, status, valor, quantidade} = req.body;
+
+        if (valor < 0 || quantidade < 0) {
+            return res.status(400).json({
+                message: 'Valor e quantidade não podem ser negativos.'
+            })
+        };
+
         const response = await create(nome, tag, status, valor);
 
         return res.status(201).json(response);

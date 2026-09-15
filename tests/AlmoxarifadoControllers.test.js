@@ -32,6 +32,7 @@ beforeEach(() => {
         create: mock.fn(),
         findAll: mock.fn(),
         findById: mock.fn(),
+        findByName: mock.fn(async () => null),
         update: mock.fn(),
         deleteAlmox: mock.fn()
     };
@@ -66,6 +67,27 @@ describe('createAlmoxarifado', () => {
         assert.deepEqual(repository.create.mock.calls[0].arguments, ['Central']);
         assert.equal(res.statusCode, 201);
         assert.deepEqual(res.body, result);
+    });
+
+    test('responds with 400 when nome is empty', async () => {
+        const res = createResponse();
+
+        await controller.createAlmoxarifado({ body: { nome: '   ' } }, res);
+
+        assert.equal(res.statusCode, 400);
+        assert.deepEqual(res.body, { message: 'É necessário um nome' });
+        assert.equal(repository.create.mock.callCount(), 0);
+    });
+
+    test('responds with 409 when the name already exists', async () => {
+        repository.findByName.mock.mockImplementation(async () => ({ id: 1, nome: 'Central' }));
+        const res = createResponse();
+
+        await controller.createAlmoxarifado({ body: { nome: 'Central' } }, res);
+
+        assert.equal(res.statusCode, 409);
+        assert.deepEqual(res.body, { message: 'Almoxarifado Central já existe' });
+        assert.equal(repository.create.mock.callCount(), 0);
     });
 
     test('responds with 500 when the repository throws', async () => {

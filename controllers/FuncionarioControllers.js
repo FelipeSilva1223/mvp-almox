@@ -2,14 +2,22 @@ const {
     create,
     findAll,
     findById,
+    findByMatricula,
     update,
     deleteFunc
 } = require('../repositories/FuncionarioRepository');
 
 async function createFuncionario(req, res) {
     try {
-        const nome = req.body.nome;
-        const matricula = req.body.matricula;
+        const { nome, matricula } = req.body
+        const funcionario = await findByMatricula(matricula);
+
+        if (funcionario) {
+            return res.status(400).json({
+                message: 'Matrícula já cadastrada.'
+            });
+        };
+        
         const response = await create(nome, matricula);
 
         return res.status(201).json(response);

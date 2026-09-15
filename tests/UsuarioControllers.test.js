@@ -56,15 +56,15 @@ describe('UsuarioControllers', () => {
         repository.create.mock.mockImplementation(async () => result);
         const res = responseMock();
 
-        await controller.createUsuario({ body: { nome: 'Ana', matricula: 'MAT-001' } }, res);
+        await controller.createUsuario({ body: { nome: 'Ana' } }, res);
 
-        assert.deepEqual(repository.create.mock.calls[0].arguments, ['Ana', 'MAT-001']);
+        assert.deepEqual(repository.create.mock.calls[0].arguments, ['Ana']);
         assert.equal(res.statusCode, 201);
         assert.deepEqual(res.body, result);
     });
 
     test('getAll responds with 200 and all users', async () => {
-        const users = [{ id: 1, nome: 'Ana', matricula: 'MAT-001' }];
+        const users = [{ id: 1, nome: 'Ana' }];
         repository.findAll.mock.mockImplementation(async () => users);
         const res = responseMock();
 
@@ -85,7 +85,7 @@ describe('UsuarioControllers', () => {
     });
 
     test('getById responds with 200 when the user exists', async () => {
-        const user = { id: 7, nome: 'Ana', matricula: 'MAT-001' };
+        const user = { id: 7, nome: 'Ana' };
         repository.findById.mock.mockImplementation(async () => user);
         const res = responseMock();
 
@@ -149,7 +149,7 @@ describe('UsuarioControllers', () => {
     });
 
     const errorCases = [
-        ['createUsuario', 'create', { body: { nome: 'Ana', matricula: 'MAT-001' } }, 'Erro interno.'],
+        ['createUsuario', 'create', { body: { nome: 'Ana' } }, 'Erro interno.'],
         ['getAll', 'findAll', {}, 'Erro interno.'],
         ['getById', 'findById', { params: { id: '7' } }, 'Erro interno'],
         ['updateNome', 'update', { params: { id: '7' }, body: { nome: 'Bia' } }, 'Erro interno.'],
