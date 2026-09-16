@@ -1,16 +1,12 @@
 const connection = require('../database');
 
-async function create(nome, valor, quantidade) {
+async function create(nome, tipo, valor, tag, status) {
     try {
         const sql = `
-        INSERT INTO bens_consumo (nome, valor, quantidade)
-        VALUES (?, ?, ?);
-        `;
-
-        const [result] = await connection.query(sql, [nome, valor, quantidade]);
-
+        INSERT INTO itens (nome, tipo, valor, tag, status)
+        VALUES (?, ?, ?, ?, ?);`;
+        const [result] = await connection.query(sql, [nome, tipo, valor, tag, status]);
         return result;
-
     } catch (err) {
         console.log(err);
         throw err;
@@ -20,11 +16,9 @@ async function create(nome, valor, quantidade) {
 async function findAll() {
     try {
         const sql = `
-        SELECT id, nome, valor, quantidade
-        FROM bens_consumo;`;
-
+        SELECT id, nome, tipo, valor, tag, status
+        FROM itens;`;
         const [result] = await connection.query(sql);
-
         return result;
     } catch (err) {
         console.log(err);
@@ -35,12 +29,10 @@ async function findAll() {
 async function findById(id) {
     try {
         const sql = `
-        SELECT id, nome, valor, quantidade
-        FROM bens_consumo
+        SELECT id, nome, tipo, valor, tag, status
+        FROM itens
         WHERE id = ?;`;
-
         const [result] = await connection.query(sql, [id]);
-
         return result[0] ?? null;
     } catch (err) {
         console.log(err);
@@ -51,40 +43,33 @@ async function findById(id) {
 async function update(id, nome) {
     try {
         const sql = `
-        UPDATE bens_consumo
+        UPDATE itens
         SET nome = ?
         WHERE id = ?;`;
-
         const [result] = await connection.query(sql, [nome, id]);
-
         return result;
-
     } catch (err) {
         console.log(err);
         throw err;
     };
 };
 
-async function deleteBem(id) {
+async function deleteItem(id) {
     try {
         const sql = `
-        DELETE FROM bens_consumo
+        DELETE FROM itens
         WHERE id = ?;`;
-
         const [result] = await connection.query(sql, [id]);
-
         return result;
-
     } catch (err) {
         console.log(err);
         throw err;
     };
 };
 
-module.exports = {
+module.exports = { 
     create,
     findAll,
     findById,
     update,
-    deleteBem
-};
+    deleteItem };

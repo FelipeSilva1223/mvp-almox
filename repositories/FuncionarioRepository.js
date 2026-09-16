@@ -52,7 +52,8 @@ async function findByMatricula(matricula) {
         const sql = `
         SELECT id, nome, matricula
         FROM funcionarios
-        WHERE id = ?;`;
+        WHERE matricula = ?;
+        `;
 
         const [result] = await connection.query(sql, [matricula]);
 
@@ -68,7 +69,8 @@ async function update(id, nome) {
         const sql = `
         UPDATE funcionarios
         SET nome = ?
-        WHERE id = ?;`;
+        WHERE id = ?;
+        `;
 
         const [result] = await connection.query(sql, [nome, id]);
 
@@ -84,7 +86,8 @@ async function deleteFunc(id) {
     try {
         const sql = `
         DELETE FROM funcionarios
-        WHERE id = ?;`;
+        WHERE id = ?;
+        `;
 
         const [result] = await connection.query(sql, [id]);
 

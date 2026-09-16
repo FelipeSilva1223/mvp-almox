@@ -8,7 +8,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test"
+    "test": "node --test",
+    "db:init": "node database/init.js",
+    "seed": "node database/seed.js",
+    "setup": "node database/init.js && node database/seed.js"
   },
   "dependencies": {
     "express": "^5.2.1",
