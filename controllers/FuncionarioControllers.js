@@ -3,8 +3,7 @@ const {
     findAll,
     findById,
     findByMatricula,
-    update,
-    deleteFunc
+    update
 } = require('../repositories/FuncionarioRepository');
 
 async function createFuncionario(req, res) {
@@ -95,33 +94,9 @@ async function updateNome(req, res) {
     };
 };
 
-async function deleteFuncionario(req, res) {
-    try {
-        const id = req.params.id;
-        const response = await deleteFunc(id);
-
-        if (response.affectedRows === 0) {
-            return res.status(404).json({
-                message: 'Funcionário não encontrado.'
-            });
-        };
-
-        return res.status(200).json({
-            message: 'Funcionário apagado.'
-        });
-
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({
-            message: 'Erro interno.'
-        });
-    };
-};
-
 module.exports = {
     createFuncionario,
     getAll,
     getById,
-    updateNome,
-    deleteFuncionario
+    updateNome
 };

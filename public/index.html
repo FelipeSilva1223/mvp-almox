@@ -117,6 +117,43 @@
     </section>
   </div>
 
+  <div class="modal-backdrop" id="ficha-modal" hidden>
+    <section class="modal ficha-modal" role="dialog" aria-modal="true" aria-labelledby="ficha-title">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">FICHA DO FUNCIONÁRIO</p>
+          <h2 id="ficha-title">Itens entregues</h2>
+          <p class="ficha-employee" id="ficha-employee"></p>
+        </div>
+        <button class="close-button" data-ficha-close aria-label="Fechar">×</button>
+      </div>
+
+      <form id="entrega-form" class="delivery-form">
+        <div class="field delivery-item">
+          <label for="entrega-item">Item disponível no estoque</label>
+          <select id="entrega-item" name="estoque" required></select>
+        </div>
+        <div class="field delivery-quantity">
+          <label for="entrega-quantidade">Quantidade</label>
+          <input id="entrega-quantidade" name="quantidade" type="number" min="1" value="1" required>
+        </div>
+        <button class="primary-button" id="entrega-button" type="submit">Entregar item</button>
+      </form>
+
+      <div class="ficha-list-header">
+        <div><h3>Histórico da ficha</h3><p>Itens entregues e devolvidos</p></div>
+        <span id="ficha-count"></span>
+      </div>
+      <div class="ficha-table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Almoxarifado</th><th>Em posse</th><th>Devolvido</th><th>Situação</th><th>Ação</th></tr></thead>
+          <tbody id="ficha-items"></tbody>
+        </table>
+        <div class="ficha-empty" id="ficha-empty" hidden>Nenhum item entregue para este funcionário.</div>
+      </div>
+    </section>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="/app.js"></script>
 </body>

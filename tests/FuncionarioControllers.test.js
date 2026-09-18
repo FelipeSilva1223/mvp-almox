@@ -31,8 +31,7 @@ beforeEach(() => {
         findAll: mock.fn(),
         findById: mock.fn(),
         findByMatricula: mock.fn(async () => null),
-        update: mock.fn(),
-        deleteFunc: mock.fn()
+        update: mock.fn()
     };
     require.cache[repositoryPath] = {
         id: repositoryPath,
@@ -139,33 +138,11 @@ describe('FuncionarioControllers', () => {
         assert.deepEqual(res.body, { message: 'Funcionário não encontrado.' });
     });
 
-    test('deleteFuncionario uses deleteFunc and responds with 200', async () => {
-        repository.deleteFunc.mock.mockImplementation(async () => ({ affectedRows: 1 }));
-        const res = responseMock();
-
-        await controller.deleteFuncionario({ params: { id: '7' } }, res);
-
-        assert.deepEqual(repository.deleteFunc.mock.calls[0].arguments, ['7']);
-        assert.equal(res.statusCode, 200);
-        assert.deepEqual(res.body, { message: 'Funcionário apagado.' });
-    });
-
-    test('deleteFuncionario responds with 404 when not found', async () => {
-        repository.deleteFunc.mock.mockImplementation(async () => ({ affectedRows: 0 }));
-        const res = responseMock();
-
-        await controller.deleteFuncionario({ params: { id: '99' } }, res);
-
-        assert.equal(res.statusCode, 404);
-        assert.deepEqual(res.body, { message: 'Funcionário não encontrado.' });
-    });
-
     const errors = [
         ['createFuncionario', 'create', { body: { nome: 'Ana', matricula: 'MAT-001' } }],
         ['getAll', 'findAll', {}],
         ['getById', 'findById', { params: { id: '7' } }],
-        ['updateNome', 'update', { params: { id: '7' }, body: { nome: 'Bia' } }],
-        ['deleteFuncionario', 'deleteFunc', { params: { id: '7' } }]
+        ['updateNome', 'update', { params: { id: '7' }, body: { nome: 'Bia' } }]
     ];
 
     for (const [handler, method, req] of errors) {

@@ -5,17 +5,18 @@ const {
     createFuncionario,
     getAll,
     getById,
-    updateNome,
-    deleteFuncionario
+    updateNome
 } = require('../controllers/FuncionarioControllers');
+
+const { addToFicha, removeFromFicha } = require('../controllers/FichaControllers');
 
 routers.get('/', getAll);
 routers.get('/:id', getById);
 
 routers.post('/', createFuncionario);
+routers.post('/receber-item', addToFicha);
 
+routers.patch('/devolucao-item', removeFromFicha);
 routers.patch('/:id', updateNome);
-
-routers.delete('/:id', deleteFuncionario);
 
 module.exports = routers;

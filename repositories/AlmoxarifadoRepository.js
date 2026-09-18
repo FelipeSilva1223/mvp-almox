@@ -9,6 +9,7 @@ async function create(nome) {
         const [result] = await connection.query(sql, [nome])
 
         return result;
+
     } catch (err) {
         console.log(err);
         throw err;
@@ -43,6 +44,7 @@ async function findById(id) {
         const [result] = await connection.query(sql, [id])
 
         return result[0] ?? null;
+
     } catch (err) {
         console.log(err);
         throw err;
@@ -60,6 +62,7 @@ async function findByName(nome) {
         const [result] = await connection.query(sql, [nome])
 
         return result[0] ?? null;
+        
     } catch (err) {
         console.log(err);
         throw err;
