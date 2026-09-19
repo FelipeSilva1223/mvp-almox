@@ -66,6 +66,15 @@
           <article class="metric-card"><div class="metric-icon violet">♙</div><p>Funcionários</p><strong>—</strong><small>pessoas cadastradas</small></article>
         </div>
 
+        <section class="low-stock-alert" id="low-stock-alert" hidden>
+          <div class="low-stock-icon">!</div>
+          <div class="low-stock-content">
+            <strong id="low-stock-title">Atenção: estoque baixo</strong>
+            <p id="low-stock-description"></p>
+            <div class="low-stock-items" id="low-stock-items"></div>
+          </div>
+        </section>
+
         <div class="dashboard-grid">
           <section class="panel inventory-panel">
             <div class="panel-heading"><div><h2>Resumo do estoque</h2><p>Distribuição de itens cadastrados</p></div><button class="text-button" data-go="ferramentas">Ver estoque →</button></div>
@@ -128,17 +137,9 @@
         <button class="close-button" data-ficha-close aria-label="Fechar">×</button>
       </div>
 
-      <form id="entrega-form" class="delivery-form">
-        <div class="field delivery-item">
-          <label for="entrega-item">Item disponível no estoque</label>
-          <select id="entrega-item" name="estoque" required></select>
-        </div>
-        <div class="field delivery-quantity">
-          <label for="entrega-quantidade">Quantidade</label>
-          <input id="entrega-quantidade" name="quantidade" type="number" min="1" value="1" required>
-        </div>
-        <button class="primary-button" id="entrega-button" type="submit">Entregar item</button>
-      </form>
+      <div class="ficha-actions">
+        <button class="primary-button" id="toggle-entrega" type="button">＋ Entregar item</button>
+      </div>
 
       <div class="ficha-list-header">
         <div><h3>Histórico da ficha</h3><p>Itens entregues e devolvidos</p></div>
@@ -150,6 +151,50 @@
           <tbody id="ficha-items"></tbody>
         </table>
         <div class="ficha-empty" id="ficha-empty" hidden>Nenhum item entregue para este funcionário.</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="almoxarifado-modal" hidden>
+    <section class="modal warehouse-modal" role="dialog" aria-modal="true" aria-labelledby="almoxarifado-title">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">ESTOQUE DO ALMOXARIFADO</p>
+          <h2 id="almoxarifado-title">Itens cadastrados</h2>
+          <p class="warehouse-summary" id="almoxarifado-summary"></p>
+        </div>
+        <button class="close-button" data-almoxarifado-close aria-label="Fechar">×</button>
+      </div>
+      <div class="warehouse-table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Tipo</th><th>Tag</th><th>Status</th><th>Quantidade</th><th>Estoque mínimo</th><th>Valor</th></tr></thead>
+          <tbody id="almoxarifado-items"></tbody>
+        </table>
+        <div class="warehouse-empty" id="almoxarifado-empty" hidden>Nenhum item cadastrado neste almoxarifado.</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="entrega-modal" hidden>
+    <section class="modal delivery-modal" role="dialog" aria-modal="true" aria-labelledby="entrega-title">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">ENTREGA DE MATERIAL</p>
+          <h2 id="entrega-title">Escolha um item</h2>
+          <p class="delivery-employee" id="entrega-employee"></p>
+        </div>
+        <button class="close-button" data-entrega-close aria-label="Voltar para a ficha">×</button>
+      </div>
+      <div class="delivery-toolbar">
+        <label class="search"><span>⌕</span><input id="entrega-search" type="search" placeholder="Buscar item, tipo, tag ou almoxarifado..." autocomplete="off"></label>
+        <button class="secondary-button" id="entrega-back" type="button">← Voltar para a ficha</button>
+      </div>
+      <div class="delivery-table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Tipo</th><th>Almoxarifado</th><th>Disponível</th><th>Quantidade</th><th>Ação</th></tr></thead>
+          <tbody id="entrega-items"></tbody>
+        </table>
+        <div class="delivery-empty" id="entrega-empty" hidden>Nenhum item disponível para entrega.</div>
       </div>
     </section>
   </div>

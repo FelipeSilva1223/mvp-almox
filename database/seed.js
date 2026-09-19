@@ -13,7 +13,7 @@ const items = [
     ['Óculos de proteção', 'epi', 17.50, null, null, [[40, 20], [16, 10]]],
     ['Protetor auricular', 'epi', 8.90, null, null, [[50, 20], [24, 12]]],
     ['Luva descartável', 'bem_consumo', 1.20, null, null, [[150, 50], [80, 40]]],
-    ['Fita isolante', 'bem_consumo', 9.90, null, null, [[30, 10], [12, 8]]],
+    ['Fita isolante', 'bem_consumo', 9.90, null, null, [[30, 10], [6, 8]]],
     ['Abraçadeira de nylon', 'bem_consumo', 0.35, null, null, [[300, 100], [120, 60]]],
     ['Parafuso sextavado', 'bem_consumo', 0.80, null, null, [[250, 80], [90, 50]]],
     ['Desengripante spray', 'bem_consumo', 24.90, null, null, [[14, 6], [5, 4]]]
